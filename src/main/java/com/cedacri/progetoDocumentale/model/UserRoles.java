@@ -7,24 +7,23 @@ import lombok.*;
 
 import java.util.List;
 
-@Setter
 @Getter
-@Builder
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "DMUsers")
-public class UserRole {
+@Table
+public class UserRoles {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable= false)
-    private long id;
+    private Long id;
 
-    @Column(name = "role_name")
     @NotNull
     @Enumerated(EnumType.STRING)
     private Role roleName;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<User> users;
+    private List<Users> users;
 }

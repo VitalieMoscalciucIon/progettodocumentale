@@ -3,19 +3,23 @@ package com.cedacri.progetoDocumentale.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Setter
 @Getter
-@Builder
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
-@Table(name = "DMInstitutions")
-public class Institution {
+@Table
+public class DocumentTypes {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "institution_id")
     private Long id;
-    private String instCode;
+    private String code;
     private String name;
-    private String additionalInfo;
+    private String typeDescription;
+    private Boolean isMacro;
+
+    @ManyToOne
+    DocumentTypes macroType;
 }
