@@ -5,7 +5,6 @@ import com.cedacri.progetoDocumentale.service.InstitutionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,55 +13,43 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/institution")
+@RequestMapping("/institutions")
 @RequiredArgsConstructor
 public class InstitutionController {
 
     private final InstitutionService institutionService;
 
-    @PostMapping("/create")
-    public ResponseEntity<InstitutionDto> createInstitution(@RequestBody @Valid InstitutionDto institutionDto) {
-        try {
-            institutionService.createInstitution(institutionDto);
-            return new ResponseEntity<>(institutionDto, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createInstitution(@RequestBody @Valid InstitutionDto institutionDto) {
+        institutionService.createInstitution(institutionDto);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public List<InstitutionDto> getAllInstitutions() {
         return institutionService.getAllInstitutions();
     }
 
-    @GetMapping("/getPaginate")
+    @GetMapping("/paginate")
     public List<InstitutionDto> getPaginateInstitutions(@RequestParam int pageNumber,
                                                         @RequestParam int pageSize) {
         return institutionService.getPaginateInstitutions(pageNumber, pageSize);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<InstitutionDto> updateInstitution(@PathVariable long id,
-                                  @RequestBody InstitutionDto institutionDto) {
-        try {
-            Optional<InstitutionDto> dto =  institutionService.updateInstitution(id, institutionDto);
-            return dto
-                    .map(d -> new ResponseEntity<>(d, HttpStatus.OK))
-                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    @PutMapping("/{id}")
+    public void updateInstitution(@PathVariable long id,
+                                  @RequestBody @Valid InstitutionDto institutionDto) {
+        institutionService.updateInstitution(id, institutionDto);
     }
 
-    @DeleteMapping("/remove/{id}")
-    public ResponseEntity<String> removeInstitution(@PathVariable long id) {
+    @DeleteMapping("/{id}")
+    public void removeInstitution(@PathVariable long id) {
         institutionService.removeInstitution(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
