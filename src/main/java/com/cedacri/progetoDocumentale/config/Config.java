@@ -1,6 +1,5 @@
 package com.cedacri.progetoDocumentale.config;
 
-import com.cedacri.progetoDocumentale.seed.Seed;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
