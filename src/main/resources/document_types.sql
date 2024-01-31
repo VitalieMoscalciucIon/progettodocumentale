@@ -25,4 +25,15 @@ select
 from document_types a
          join document_types b
               on a.macro_type_id = b.id
-where a.macro_type_id = 7
+where a.macro_type_id = 7;
+
+
+insert into institutions(id,inst_code, name, additional_info) values
+(1,'A1','A1',null),
+(2,'A2','A2',null);
+
+insert into users(id,institution_id,username, password, email, is_enabled,name,surname,patronymic)values
+    (1,1,'user','user','user',true,'user','user','user');
+
+insert into projects(id, name, date_from,date_till,additional_info,is_active,institution_id,user_id)values
+    (1,'project1','2020/10/10','2020/11/11',null,true,1,1);

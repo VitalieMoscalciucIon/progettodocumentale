@@ -1,4 +1,4 @@
-package com.cedacri.progetoDocumentale.enums;
+package com.cedacri.progetoDocumentale.model.enums;
 
 public enum Role {
     ADMINISTRATORE,

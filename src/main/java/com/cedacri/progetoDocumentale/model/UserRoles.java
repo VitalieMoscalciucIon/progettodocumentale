@@ -1,6 +1,6 @@
 package com.cedacri.progetoDocumentale.model;
 
-import com.cedacri.progetoDocumentale.enums.Role;
+import com.cedacri.progetoDocumentale.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
