@@ -47,10 +47,7 @@ public class InstitutionService {
         Institutions institution = institutionRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
 
-        // TODO: extract mapping
-        institution.setInstCode(institutionDto.getInstCode());
-        institution.setName(institutionDto.getName());
-        institution.setAdditionalInfo(institutionDto.getAdditionalInfo());
+        mapper.map(institutionDto, institution);
         institutionRepository.save(institution);
     }
 

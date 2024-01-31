@@ -33,7 +33,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                 .stream()
                 .collect(Collectors.toMap(
                         FieldError::getField,
-                        e -> e.getDefaultMessage() != null ? e.getDefaultMessage() : "no default message"));
+                        e -> e.getDefaultMessage() != null ? e.getDefaultMessage() : "no default message",
+                        (existingValue, newValue) -> existingValue + "; " + newValue));
 
         ValidationErrorDetails errorDetails = new ValidationErrorDetails(
                 LocalDate.now(), errors, request.getDescription(false)

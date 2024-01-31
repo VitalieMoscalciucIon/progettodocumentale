@@ -38,5 +38,5 @@ public class UserDto {
     private List<String> roles;
 
     @NotNull
-    private boolean active;
+    private boolean isEnabled;
 }

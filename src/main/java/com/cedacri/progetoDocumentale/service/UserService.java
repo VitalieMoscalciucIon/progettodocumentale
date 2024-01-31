@@ -4,6 +4,7 @@ import com.cedacri.progetoDocumentale.dto.UserDto;
 import com.cedacri.progetoDocumentale.dto.UserView;
 import com.cedacri.progetoDocumentale.exception.ResourceAlreadyExistsException;
 import com.cedacri.progetoDocumentale.exception.ResourceNotFoundException;
+import com.cedacri.progetoDocumentale.mapper.UserMapper;
 import com.cedacri.progetoDocumentale.model.Institutions;
 import com.cedacri.progetoDocumentale.model.UserRoles;
 import com.cedacri.progetoDocumentale.model.Users;
@@ -27,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final InstitutionRepository institutionRepository;
+    private final UserMapper userMapper;
     private final ModelMapper mapper;
 
     public void createUser(UserDto userDto) {
@@ -36,18 +38,7 @@ public class UserService {
         if (roles.isEmpty() || institution == null)
             throw new ResourceNotFoundException();
 
-        // TODO: extract mapping
-        Users user = new Users();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setEmail(userDto.getEmail());
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        user.setPatronymic(userDto.getPatronymic());
-        user.setRoles(roles);
-        user.setInstitution(institution);
-        user.setIsEnabled(userDto.isActive());
-
+        Users user = userMapper.fromDto(userDto, roles, institution);
         try {
             userRepository.save(user);
         } catch (Exception e) {
@@ -72,23 +63,14 @@ public class UserService {
         Users user = userRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
 
-        // TODO: refactor bellow this line
         List<UserRoles> roles = userRoleRepository.getByRoleNameIn(userDto.getRoles());
         Institutions institution = institutionRepository.findByName(userDto.getInstitution());
 
         if (roles.isEmpty() || institution == null)
             throw new ResourceNotFoundException();
 
-        user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
-        user.setEmail(userDto.getEmail());
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        user.setPatronymic(userDto.getPatronymic());
-        user.setRoles(roles);
-        user.setInstitution(institution);
-        user.setIsEnabled(userDto.isActive());
-
+        user = userMapper.fromDto(userDto, roles, institution);
+        user.setId(id);
         try {
             userRepository.save(user);
         } catch (Exception e) {
